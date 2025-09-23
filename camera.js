@@ -26,7 +26,7 @@ let moveDown = false;
 
 let enableCulling = true;
 
-// Cullingw
+// Culling
 function updateCulling(enabled) {
   scene.traverse((obj) => {
     if (obj.isMesh) {

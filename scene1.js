@@ -31,10 +31,10 @@ function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Heigh
     const cols = arr[0].length;
     const current = arr[x][y];
     const sides = [];
-    if (x > 0 && arr[x - 1][y] === current) sides.push('left');
-    if (x < rows - 1 && arr[x + 1][y] === current) sides.push('right');
-    if (y > 0 && arr[x][y - 1] === current) sides.push('back');
-    if (y < cols - 1 && arr[x][y + 1] === current) sides.push('front');
+    if (x > 0 && arr[x - 1][y] >= current) sides.push('left');
+    if (x < rows - 1 && arr[x + 1][y] >= current) sides.push('right');
+    if (y > 0 && arr[x][y - 1] >= current) sides.push('back');
+    if (y < cols - 1 && arr[x][y + 1] >= current) sides.push('front');
     return sides;
   }
   function CheckSidesDiff2(x, y, arr) {
@@ -42,10 +42,10 @@ function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Heigh
     const cols = arr[0].length;
     const current = arr[x][y];
     const sides = [];
-    if (x > 0 && arr[x - 1][y] >= current) sides.push('left');
-    if (x < rows - 1 && arr[x + 1][y] >= current) sides.push('right');
-    if (y > 0 && arr[x][y - 1] >= current) sides.push('back');
-    if (y < cols - 1 && arr[x][y + 1] >= current) sides.push('front');
+    if (x > 0 && arr[x - 1][y] === current) sides.push('left');
+    if (x < rows - 1 && arr[x + 1][y] === current) sides.push('right');
+    if (y > 0 && arr[x][y - 1] === current) sides.push('back');
+    if (y < cols - 1 && arr[x][y + 1] === current) sides.push('front');
     let number = [
       (arr[x - 1] && arr[x - 1][y] !== undefined) ? arr[x - 1][y] : current,
       (arr[x + 1] && arr[x + 1][y] !== undefined) ? arr[x + 1][y] : current,
@@ -62,7 +62,6 @@ function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Heigh
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
     for (let z = 0; z < A2.length; z++) {  // fix here: I in condition and increment
-      console.log(A2[z]);
       const worldX = (x - size / 2) * spacing;
       const worldZ = (z - size / 2) * spacing;
       let Faces = ['top', 'back' , 'front', 'left' ,'right']
