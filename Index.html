@@ -9,23 +9,20 @@
   </style>
 </head>
 <body>
-
-  <!-- ✅ Load Three.js -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
-
-  <!-- ✅ Declare scene globally -->
+
   <script>
     window.scene = new THREE.Scene();
   </script>
 
-  <!-- ✅ Load Custom Scripts (make sure these files are in your project or hosted) -->
+  
   <script src="PerlinNoise.js"></script>
   <script src="cube.js"></script>
   <script src="10x10-cube.js"></script>
   <script src="camera.js"></script>
   <script src="scene1.js"></script>
 
-  <!-- ✅ Main Script -->
+ 
   <script>
     // Ensure the DOM and scripts are fully loaded
     window.addEventListener('DOMContentLoaded', () => {
