@@ -10,7 +10,7 @@ function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height 
 
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
-    for (let z = 0; z < A2.length; z++) {  // fix here: I in condition and increment
+    for (let z = 0; z < A2.length; z++) { 
       console.log(A2[z]);
       const worldX = (x - size / 2) * spacing;
       const worldZ = (z - size / 2) * spacing;
