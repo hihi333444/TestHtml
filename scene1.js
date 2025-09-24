@@ -115,7 +115,7 @@ function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Heigh
         }else{
           console.log(A2[z])
           const topCube = createCubeWithFaces([1, 1, Mat[x][z]], Faces);
-          topCube.position.set(worldX, (A2[z] * spacing) + (Mat[x][z] / 2) * spacing, worldZ-((Mat[x][z]/2)*spacing));
+          topCube.position.set(worldX, A2[z] * spacing + (Mat[x][z] / 2) * spacing, worldZ-((Mat[x][z]/2)*spacing));
           scene.add(topCube);
         }
         
