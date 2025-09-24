@@ -45,7 +45,6 @@ function createCubeWithFaces(
   });
 
   const vertices = new Float32Array(faces);
-
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
   geometry.computeVertexNormals();
@@ -89,5 +88,35 @@ function removeFaces(mesh, facesToRemove) {
   return newMesh;
 }
 
+function expandCube(mesh, x, y, z) {
+  // Check if we have original face data
+  if (!mesh.userData.facesToInclude) {
+    console.warn('No original face list found in mesh.userData.facesToInclude');
+    return mesh;
+  }
+
+  const facesToInclude = mesh.userData.facesToInclude;
+  const material = mesh.material;
+  const position = mesh.position.clone(); // Save current position
+
+  const newSize = [x, y, z];
+
+  // Create new cube with the same faces and new size
+  const newMesh = createCubeWithFaces(newSize, facesToInclude, material);
+
+  // Restore position
+  newMesh.position.copy(position);
+
+  // Preserve userData
+  newMesh.userData.facesToInclude = facesToInclude;
+  newMesh.userData.size = newSize;
+
+  return newMesh;
+}
+
+
 window.removeFaces = removeFaces;
+
+window.expandCube = expandCube;
+
 window.createCubeWithFaces = createCubeWithFaces; //Full list ['top', 'bottom',  'front', 'back' , 'left' ,'right']

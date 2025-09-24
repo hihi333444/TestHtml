@@ -10,8 +10,7 @@ function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height 
 
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
-    for (let z = 0; z < A2.length; z++) { 
-      console.log(A2[z]);
+    for (let z = 0; z < A2.length; z++) {
       const worldX = (x - size / 2) * spacing;
       const worldZ = (z - size / 2) * spacing;
       let Faces = ['top', 'back' , 'front', 'left' ,'right']
@@ -61,7 +60,7 @@ function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Heigh
     while (z < TurrArray[x].length) {
       const currentHeight = TurrArray[x][z];
       let width = 1;
-      // Merge consecutive cubes with the same height along Z axis
+
       while (
         z + width < TurrArray[x].length &&
         TurrArray[x][z + width] === currentHeight
@@ -72,7 +71,6 @@ function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Heigh
       const worldX = (x - size / 2) * spacing;
       const worldZ = (z - size / 2) * spacing + ((width - 1) * spacing) / 2;
 
-      // Only render visible faces (like gen2, you can add logic for face culling)
       const Faces = ['top', 'back', 'front', 'left', 'right'];
       const topCube = createCubeWithFaces([1, 1, width], Faces);
       topCube.position.set(worldX, (currentHeight - 1) * spacing, worldZ);
@@ -81,7 +79,6 @@ function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Heigh
       z += width;
     }
   }
-}
 }
 
 
