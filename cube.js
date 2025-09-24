@@ -1,5 +1,6 @@
 //Create Cube
 function createCubeWithFaces(
+  
   size = [1, 1, 1], 
   facesToInclude = ['top', 'bottom', 'front', 'back', 'left', 'right'], 
   material = null

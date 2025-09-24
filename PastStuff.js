@@ -1,13 +1,6 @@
-
-const directions = [
-  /*[-1, -1]*/, [-1, 0], //[-1, 1],
-  [0, -1],           [0, 1],
-  /*[1, -1]*/,  [1, 0],  //[1, 1]
-];
-
 function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height = 5, xOffset = 0, zOffset = 0) {
-  let total = 0
-  const TurrArray = generateNoiseMap(size,scale,Height,xOffset,zOffset)
+
+  const TurrArray = generateNoiseMap(size,scale,Height)
 
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
@@ -53,6 +46,15 @@ function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Heigh
   }
 
 }
+
+
+const directions = [
+  /*[-1, -1]*/, [-1, 0], //[-1, 1],
+  [0, -1],           [0, 1],
+  /*[1, -1]*/,  [1, 0],  //[1, 1]
+];
+
+
 const ChunkMeshes = new Map();
 
 function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Height = 5, xOffset = 0, zOffset = 0, chunkX = 0, chunkZ = 0) {

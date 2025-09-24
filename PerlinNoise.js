@@ -54,7 +54,7 @@ class Perlin {
     );
   }
 }
-
+const ChunkSize = 10
 function generateNoiseMap(size = 10, scale = 0.1, height = 2, repeat = 0, xOffset = 0, zOffset = 0) {
   const noiseGen = new Perlin(repeat); // pass repeat
   const noiseMap = [];

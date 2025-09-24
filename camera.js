@@ -2,8 +2,6 @@
 
 // Create camera rig (controls yaw)
 const cameraRig = new THREE.Object3D();
-let RenderedChunks = [];
-let CPOS = [0, 0];
 
 // Create the camera (child of rig, controls pitch)
 const camera = new THREE.PerspectiveCamera(
@@ -94,17 +92,22 @@ function chunkExists(x, y) {
   // Checks if [x,y] exists in RenderedChunks
   return RenderedChunks.some(chunk => chunk[0] === x && chunk[1] === y);
 }
-
-function Chunk(X, Y) {
-  if (!chunkExists(X, Y)) {
-    RenderedChunks.push([X, Y]);
-    generateCubeTerrain_3(scene, chunkSize, 1, .1, 3, X * chunkSize, Y * chunkSize);
+let LoChundks = [0,0]
+function containsPair(sourceArray, targetArray) {
+  return sourceArray.some(sub =>
+    sub.length === targetArray.length &&
+    sub.every((val, i) => val === targetArray[i])
+  );
+}
+function UpChunk(x,z){
+  if (!containsPair(LoChundks,[x,z])){
+    LoChundks.push([x,z])
+    generateCubeTerrain_3(scene, chunksize, 1, .1, 3,chunksize*x,chunksize*z);
   }
 }
-
-let chunkSize = 25;
-
 // Call this every frame with deltaTime in seconds
+let GP = [-100,-100]
+chunksize = 10
 function updateCameraMovement(deltaTime) {
   // Update rotations
   cameraRig.rotation.y = yaw;
@@ -128,26 +131,15 @@ function updateCameraMovement(deltaTime) {
     const speed = 20;
     direction.multiplyScalar(speed * deltaTime);
     cameraRig.position.add(direction);
+
   }
-
-  // Calculate which chunk camera is in
-  const centerChunk = [
-    Math.floor(cameraRig.position.x / chunkSize),
-    Math.floor(cameraRig.position.z / chunkSize)
-  ];
-
-  // Only update if camera moved to a new chunk
-  if (CPOS[0] !== centerChunk[0] || CPOS[1] !== centerChunk[1]) {
-    // Render all chunks in a circle of radius 5 around centerChunk
-    const radius = 5;
-    for (let dy = -radius; dy <= radius; dy++) {
-      for (let dx = -radius; dx <= radius; dx++) {
-        if (Math.sqrt(dx * dx + dy * dy) <= radius) {
-          Chunk(centerChunk[0] + dx, centerChunk[1] + dy);
-        }
-      }
+  const pos = [Math.round(cameraRig.position.x/chunksize),Math.round(cameraRig.position.z/chunksize)]
+  if (pos[0] != GP[0]){
+    UpChunk(pos[0],pos[1])
+  }else{
+    if (pos[1] != GP[1]){
+      UpChunk(pos[0],pos[1])
     }
-    CPOS = centerChunk;
   }
 }
 
