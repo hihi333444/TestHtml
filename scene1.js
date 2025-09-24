@@ -4,15 +4,16 @@ const directions = [
   [0, -1],           [0, 1],
   /*[1, -1]*/,  [1, 0],  //[1, 1]
 ];
-function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height = 5) {
+
+function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height = 5, xOffset = 0, zOffset = 0) {
 
   const TurrArray = generateNoiseMap(size,scale,Height)
 
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
     for (let z = 0; z < A2.length; z++) {
-      const worldX = (x - size / 2) * spacing;
-      const worldZ = (z - size / 2) * spacing;
+      const worldX = (x - size / 2) * spacing + xOffset;
+      const worldZ = (z - size / 2) * spacing + zOffset;
       let Faces = ['top', 'back' , 'front', 'left' ,'right']
       topCube = createCubeWithFaces([1,1,1],Faces);
       topCube.position.set(worldX, (TurrArray[x][z] - 1) * spacing, worldZ);
@@ -24,7 +25,7 @@ function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height 
   }
 }
 
-function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Height = 5) {
+function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Height = 5, xOffset = 0, zOffset = 0) {
   function CheckSidesSame(x, y, arr) {
     const rows = arr.length;
     const cols = arr[0].length;
@@ -41,8 +42,8 @@ function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Heigh
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
     for (let z = 0; z < A2.length; z++) { 
-      const worldX = (x - size / 2) * spacing;
-      const worldZ = (z - size / 2) * spacing;
+      const worldX = (x - size / 2) * spacing + xOffset;
+      const worldZ = (z - size / 2) * spacing + zOffset;
       let Faces = ['top', 'back' , 'front', 'left' ,'right']
       Faces = Faces.filter(side => !CheckSidesSame(x,z,TurrArray).includes(side));
       topCube = createCubeWithFaces([1,1,1],Faces);
@@ -52,8 +53,12 @@ function generateCubeTerrain_2(scene, size = 10, spacing = 1, scale = 0.1, Heigh
   }
 
 }
-function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Height = 5) {
-  const TurrArray = generateNoiseMap(size, scale, Height);
+const ChunkMeshes = new Map();
+
+function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Height = 5, xOffset = 0, zOffset = 0, chunkX = 0, chunkZ = 0) {
+  const TurrArray = generateNoiseMap(size, scale, Height,xOffset/2,zOffset/2);
+  // Store meshes for this chunk
+  const meshes = [];
 
   for (let x = 0; x < TurrArray.length; x++) {
     let z = 0;
@@ -68,16 +73,40 @@ function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Heigh
         width++;
       }
 
-      const worldX = (x - size / 2) * spacing;
-      const worldZ = (z - size / 2) * spacing + ((width - 1) * spacing) / 2;
+      const worldX = (x - size / 2) * spacing + xOffset;
+      const worldZ = (z - size / 2) * spacing + ((width - 1) * spacing) / 2 + zOffset;
 
       const Faces = ['top', 'back', 'front', 'left', 'right'];
       const topCube = createCubeWithFaces([1, 1, width], Faces);
       topCube.position.set(worldX, (currentHeight - 1) * spacing, worldZ);
       scene.add(topCube);
+      meshes.push(topCube);
 
       z += width;
     }
+  }
+  // Save meshes for this chunk, using chunkX, chunkZ as key
+  ChunkMeshes.set(`${chunkX},${chunkZ}`, meshes);
+}
+
+// Call this to delete a chunk and its meshes
+function deleteChunk(scene, chunkX, chunkZ) {
+  const key = `${chunkX},${chunkZ}`;
+  const meshes = ChunkMeshes.get(key);
+  if (meshes) {
+    for (const mesh of meshes) {
+      scene.remove(mesh);
+      // Optional: dispose geometry & material for memory cleanup
+      if (mesh.geometry) mesh.geometry.dispose();
+      if (mesh.material) {
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach(m => m.dispose());
+        } else {
+          mesh.material.dispose();
+        }
+      }
+    }
+    ChunkMeshes.delete(key);
   }
 }
 
