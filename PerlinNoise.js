@@ -51,7 +51,6 @@ function generateNoiseMap(size = 10, scale = 0.1,Hight = 2) {
   for (let x = 0; x < size; x++) {
     noiseMap[x] = [];
     for (let z = 0; z < size; z++) {
-      // Generate noise, then round to nearest integer
       const noiseValue = noiseGen.noise(x * scale, z * scale);
       noiseMap[x][z] = Math.round(noiseValue*Hight);
     }
@@ -59,10 +58,4 @@ function generateNoiseMap(size = 10, scale = 0.1,Hight = 2) {
 
   console.log(noiseMap);
   return noiseMap;
-}
-
-
-// Usage example:
-
-window.Perlin = Perlin;
-window.generateNoiseMap = generateNoiseMap;
+}
