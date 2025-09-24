@@ -1,6 +1,15 @@
 //Create Cube
-function createCubeWithFaces(size = 1, facesToInclude = ['top', 'bottom', 'front', 'back', 'left', 'right'], material = null) {
-  const h = size / 2;
+function createCubeWithFaces(
+  size = [1, 1, 1], 
+  facesToInclude = ['top', 'bottom', 'front', 'back', 'left', 'right'], 
+  material = null
+) {
+  // Destructure sizes for each axis
+  const [sx, sy, sz] = size;
+  const hx = sx / 2;
+  const hy = sy / 2;
+  const hz = sz / 2;
+
   const faces = [];
 
   function pushFace(a, b, c, d) {
@@ -11,14 +20,14 @@ function createCubeWithFaces(size = 1, facesToInclude = ['top', 'bottom', 'front
   }
 
   const p = {
-    topFrontLeft:    [-h,  h,  h],
-    topFrontRight:   [ h,  h,  h],
-    topBackLeft:     [-h,  h, -h],
-    topBackRight:    [ h,  h, -h],
-    bottomFrontLeft: [-h, -h,  h],
-    bottomFrontRight:[ h, -h,  h],
-    bottomBackLeft:  [-h, -h, -h],
-    bottomBackRight: [ h, -h, -h],
+    topFrontLeft:    [-hx,  hy,  hz],
+    topFrontRight:   [ hx,  hy,  hz],
+    topBackLeft:     [-hx,  hy, -hz],
+    topBackRight:    [ hx,  hy, -hz],
+    bottomFrontLeft: [-hx, -hy,  hz],
+    bottomFrontRight:[ hx, -hy,  hz],
+    bottomBackLeft:  [-hx, -hy, -hz],
+    bottomBackRight: [ hx, -hy, -hz],
   };
 
   const faceVertices = {
@@ -47,6 +56,7 @@ function createCubeWithFaces(size = 1, facesToInclude = ['top', 'bottom', 'front
 
   return new THREE.Mesh(geometry, material);
 }
+
 
 //delete faces
 function removeFaces(mesh, facesToRemove) {
