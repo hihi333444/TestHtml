@@ -100,47 +100,52 @@ function containsPair(sourceArray, targetArray) {
   );
 }
 function UpChunk(x,z){
-  if (!containsPair(LoChundks,[x,z])){
-    LoChundks.push([x,z])
-    generateCubeTerrain_3(scene, chunksize, 1, .1, 3,chunksize*x,chunksize*z);
-  }
+  for (let X = -2; X <= 2; X++) {
+    for (let Z = -2; Z <= 2; Z++) {
+      let chunkX = x + X;
+      let chunkZ = z + Z;
+
+      if (!containsPair(LoChundks, [chunkX, chunkZ])) {
+        LoChundks.push([chunkX, chunkZ]);
+        generateCubeTerrain_3(scene, chunksize, 1, 0.1, 3, chunksize * chunkX, chunksize * chunkZ);
+      }
+    }
+  } 
 }
-// Call this every frame with deltaTime in seconds
 let GP = [-100,-100]
-chunksize = 10
+chunksize = 25
 function updateCameraMovement(deltaTime) {
   // Update rotations
   cameraRig.rotation.y = yaw;
   camera.rotation.x = pitch;
 
-  // Calculate movement direction vector
   const direction = new THREE.Vector3();
 
   if (moveForward) direction.z -= 10;
   if (moveBackward) direction.z += 10;
   if (moveLeft) direction.x -= 10;
   if (moveRight) direction.x += 10;
-  if (moveUp) direction.y += 10;    // Space moves up
-  if (moveDown) direction.y -= 10;  // Ctrl moves down
+  if (moveUp) direction.y += 10;
+  if (moveDown) direction.y -= 10;
 
   if (direction.lengthSq() > 0) {
     direction.normalize();
-    // Apply rotation of the rig (yaw only) to move in local direction
+    // Apply rotation
     direction.applyEuler(cameraRig.rotation);
-    // Movement speed units per second
+    // Movement speed
     const speed = 20;
     direction.multiplyScalar(speed * deltaTime);
     cameraRig.position.add(direction);
 
   }
-  const pos = [Math.round(cameraRig.position.x/chunksize),Math.round(cameraRig.position.z/chunksize)]
+  /*const pos = [Math.round(cameraRig.position.x/chunksize),Math.round(cameraRig.position.z/chunksize)]
   if (pos[0] != GP[0]){
     UpChunk(pos[0],pos[1])
   }else{
     if (pos[1] != GP[1]){
       UpChunk(pos[0],pos[1])
     }
-  }
+  }*/
 }
 
 // Example usage in your animation loop:

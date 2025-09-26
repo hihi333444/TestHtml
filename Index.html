@@ -10,15 +10,16 @@
 </head>
 <body>
 
-  <!-- ✅ Load Three.js -->
+  <!--Load 3d scripts-->
   <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
 
-  <!-- ✅ Declare scene globally -->
   <script>
     window.scene = new THREE.Scene();
   </script>
 
-  <!-- ✅ Load Custom Scripts (make sure these files are in your project or hosted) -->
+  <!--LOad scripts/funkshen-->
+
+  <!--Load Scripts-->
   <script src="PerlinNoise.js"></script>
   <script src="PastStuff.js"></script>
   <script src="cube.js"></script>
@@ -26,9 +27,9 @@
   <script src="camera.js"></script>
   <script src="scene1.js"></script>
 
-  <!-- ✅ Main Script -->
+  <!-- Main -->
   <script>
-    // Ensure the DOM and scripts are fully loaded
+    // Idk stuff setup
     window.addEventListener('DOMContentLoaded', () => {
       // Renderer setup
       const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -39,9 +40,9 @@
       const light = new THREE.DirectionalLight(0xffffff, 1);
       light.position.set(5, 10, 5);
       scene.add(light);
-      //generateCubeTerrain_3(scene, 200, 1, .1, 3);
+      generateCubeTerrain_3(scene, 100000, 1, .1, 0);
       //countFa()
-      // Animation
+      // Animation?
       const clock = new THREE.Clock();
       function animate() {
         requestAnimationFrame(animate);

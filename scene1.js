@@ -6,14 +6,13 @@ const directions = [
 ];
 
 function generateCubeTerrain(scene, size = 10, spacing = 1, scale = 0.1, Height = 5, xOffset = 0, zOffset = 0) {
-  let total = 0
   const TurrArray = generateNoiseMap(size,scale,Height,xOffset,zOffset)
 
   for (let x = 0; x < TurrArray.length; x++) {
     const A2 = TurrArray[x];
     for (let z = 0; z < A2.length; z++) {
-      const worldX = (x - size / 2) * spacing + xOffset;
-      const worldZ = (z - size / 2) * spacing + zOffset;
+      const worldX = ((x)+xOffset) * spacing;
+      const worldZ = ((z)+zOffset) * spacing;
       let Faces = ['top', 'back' , 'front', 'left' ,'right']
       topCube = createCubeWithFaces([1,1,1],Faces);
       topCube.position.set(worldX, (TurrArray[x][z] - 1) * spacing, worldZ);
@@ -73,8 +72,8 @@ function generateCubeTerrain_3(scene, size = 10, spacing = 1, scale = 0.1, Heigh
         width++;
       }
 
-      const worldX = (x - size / 2) * spacing + xOffset;
-      const worldZ = (z - size / 2) * spacing + ((width - 1) * spacing) / 2 + zOffset;
+      const worldX = ((x - size / 2)+xOffset) * spacing;
+      const worldZ = ((z - size / 2)+xOffset) * spacing + ((width - 1) * spacing) / 2;
 
       const Faces = ['top', 'back', 'front', 'left', 'right'];
       const topCube = createCubeWithFaces([1, 1, width], Faces);
